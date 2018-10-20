@@ -27,14 +27,15 @@ end
 class LEDController
   def initialize
     @content = {
-        recv_port: 8192
-        send_host: '192.168.0.10'
-        send_port: 9001
-        enabled: true
+      recv_port: 6666, # 全て適当にいれてます
+      block_size: 8192,
+      send_host: '192.168.0.10',
+      send_port: 9001,
+      enabled: false
     }
     @queue = Queue.new
     factory = LEDMapTransferFactory.new @queue
-    Thread.new { factory.new_instance(content).call }
+    Thread.new { factory.new_instance(@content).call }
     # for test
     # Thread.new { loop { recv_map_dummy() } }
   end
@@ -55,12 +56,8 @@ class LEDMapTransferFactory
 
   def new_instance(content)
     if(content[:recv_port] != nil)
-      # for test
-      # puts "create sock: " + content[:id]
       return lambda { transfer_from_sock(content) }
     else
-      # for test
-      # puts "create queue: " + content[:id]
       return lambda { transfer_from_queue(content) }
     end
   end
@@ -69,8 +66,8 @@ class LEDMapTransferFactory
 
   def transfer_from_sock(content)
     UDPSocket.open do |recv_sock|
-      recv_sock.bind('0.0.0.0', content[:port])
-      transfer content, lambda { recv_sock.recv(content[:recv_port]) }
+      recv_sock.bind('0.0.0.0', content[:recv_port])
+      transfer content, lambda { recv_sock.recv(content[:block_size]) }
     end
   end
 
