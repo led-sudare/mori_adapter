@@ -2,6 +2,9 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'json'
 
+require 'net/http'
+require 'uri'
+require 'thread/pool'
 require 'socket'
 
 class App < Sinatra::Base
@@ -29,6 +32,7 @@ class LEDController
         send_port: 9001
         enabled: true
     }
+    @queue = Queue.new
     factory = LEDMapTransferFactory.new @queue
     Thread.new { factory.new_instance(content).call }
     # for test
