@@ -14,7 +14,15 @@ class LEDController
       factory = LEDMapTransferFactory.new @queue
       Thread.new { factory.new_instance(@content).call }
     end
-  
+
+    def target
+      @content[:send_host]+':'+@content[:send_port].to_s
+    end     
+ 
+    def enable?
+      @content[:enabled]
+    end  
+
     def enable
       @content[:enabled] = true
     end

@@ -24,4 +24,11 @@ class App < Sinatra::Base
     enable ? @led_controller.enable : @led_controller.disable
     return true 
   end
+
+  get '/api/status' do
+    data = { enable: @led_controller.enable?, 
+             target: @led_controller.target}
+    data.to_json
+  end
+
 end
