@@ -11,6 +11,7 @@ class App < Sinatra::Base
   register Sinatra::Reloader
   enable :sessions
   set :bind, '0.0.0.0' # 外部アクセス可
+  set :port, 5001
 
   def initialize
     super
@@ -18,7 +19,9 @@ class App < Sinatra::Base
   end
 
   post '/api/config' do
+    params = JSON.parse request.body.read
     enable = params['enable']
+    #puts enable
     enable ? @led_controller.enable : @led_controller.disable
     return true 
   end
@@ -27,7 +30,7 @@ end
 class LEDController
   def initialize
     @content = {
-      recv_port: 6666, # 全て適当にいれてます
+      recv_port: 6666, 
       block_size: 8192,
       send_host: '192.168.0.10',
       send_port: 9001,
@@ -36,10 +39,8 @@ class LEDController
     @queue = Queue.new
     factory = LEDMapTransferFactory.new @queue
     Thread.new { factory.new_instance(@content).call }
-    # for test
-    # Thread.new { loop { recv_map_dummy() } }
   end
-  
+
   def enable
     @content[:enbaled] = true
   end
@@ -79,7 +80,6 @@ class LEDMapTransferFactory
     UDPSocket.open do |send_sock|
       # for test
       send_sock_addr = Socket.pack_sockaddr_in(content[:send_port], content[:send_host])
-      # send_sock_addr = Socket.pack_sockaddr_in(9001, '127.0.0.1')
       while d = producer.call
         next unless content[:enabled]
         send_sock.send(d, 0, send_sock_addr)
