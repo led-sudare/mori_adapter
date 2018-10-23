@@ -28,7 +28,6 @@ class LEDMapTransferFactory
   
     def transfer(content, producer)
       UDPSocket.open do |send_sock|
-        # for test
         send_sock_addr = Socket.pack_sockaddr_in(content[:send_port], content[:send_host])
         while d = producer.call
           next unless content[:enabled]

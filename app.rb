@@ -21,7 +21,6 @@ class App < Sinatra::Base
   post '/api/config' do
     params = JSON.parse request.body.read
     enable = params['enable']
-    #puts enable
     enable ? @led_controller.enable : @led_controller.disable
     return true 
   end

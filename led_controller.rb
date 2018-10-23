@@ -8,7 +8,7 @@ class LEDController
         block_size: 8192,
         send_host: '192.168.0.10',
         send_port: 9001,
-        enabled: false
+        enabled: true
       }
       @queue = Queue.new
       factory = LEDMapTransferFactory.new @queue
@@ -16,7 +16,7 @@ class LEDController
     end
   
     def enable
-      @content[:enbaled] = true
+      @content[:enabled] = true
     end
     
     def disable
