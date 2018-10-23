@@ -1,3 +1,4 @@
+# server
 ## RaspberryPi環境構築
 
 RaspberryPiセットアップ手順

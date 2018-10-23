@@ -1,4 +1,4 @@
-# demo_led_map_transfer
+# taro-mori-demo-raspi
 
 ## 環境構築
 
