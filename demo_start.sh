@@ -1,7 +1,7 @@
 cd ./server
 bundle install
 cd ../taro-mori-demo-raspi
-./make
+make
 cd ../server
 bundle exec rackup &
 cd ../taro-mori-demo-raspi
