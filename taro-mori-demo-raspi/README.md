@@ -1,4 +1,4 @@
-# server
+# taro-mori-demo-raspi
 ## RaspberryPi環境構築
 
 RaspberryPiセットアップ手順

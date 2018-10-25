@@ -1,4 +1,4 @@
-# taro-mori-demo-raspi
+# server
 
 ## 環境構築
 
