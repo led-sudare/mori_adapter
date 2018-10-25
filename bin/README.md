@@ -1,4 +1,4 @@
-# demo_led_map_transfer
+# bin
 ## demo_build.sh
 * bundle install
 * taro-mori-demo-raspiのmake
